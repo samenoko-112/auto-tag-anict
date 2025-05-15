@@ -6,6 +6,10 @@ on:
     tags:
       - 'v*'  # タグ発行時のトリガー
 
+# 権限設定を追加
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
@@ -36,13 +40,13 @@ jobs:
         
     - name: Build with PyInstaller
       run: |
-        pyinstaller --clean --onefile --name auto-tag-anict main.py
+        pyinstaller --clean --onefile --name auto-ani main.py
         
     - name: Create Release
       if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          dist/auto-tag-anict.exe
+          dist/auto-ani.exe
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 

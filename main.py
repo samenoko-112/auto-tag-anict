@@ -181,13 +181,13 @@ def main():
         parser.add_argument('--token', help='Annict APIのアクセストークン')
         args = parser.parse_args()
 
-        # .envファイルからトークンを読み込み
-        load_dotenv()
-        ACCESS_TOKEN = os.getenv("ANNICT_TOKEN")
-
-        # コマンドライン引数のトークンがある場合はそちらを優先
-        if args.token:
-            ACCESS_TOKEN = args.token
+        # トークンの取得（コマンドライン引数を優先）
+        ACCESS_TOKEN = args.token
+        
+        # コマンドライン引数でトークンが指定されていない場合は.envから読み込み
+        if not ACCESS_TOKEN:
+            load_dotenv()
+            ACCESS_TOKEN = os.getenv("ANNICT_TOKEN")
 
         if not ACCESS_TOKEN:
             raise Exception("アクセストークンが設定されていません。.envファイルを作成するか、--tokenオプションで指定してください。")
